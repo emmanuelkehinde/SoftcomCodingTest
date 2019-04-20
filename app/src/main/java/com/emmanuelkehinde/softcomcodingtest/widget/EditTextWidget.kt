@@ -18,7 +18,7 @@ import java.util.*
 
 class EditTextWidget: FormWidget {
 
-    override fun getView(parent: ViewGroup, inflater: LayoutInflater, element: Element): View {
+    override fun getView(inflater: LayoutInflater, parent: ViewGroup, element: Element): View {
         val editText = inflater.inflate(R.layout.layout_edit_text, parent, false) as FormTextInputLayout
         val edtTextInput = editText.findViewById(R.id.edt_text_input) as TextInputEditText
 

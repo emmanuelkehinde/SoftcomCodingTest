@@ -10,7 +10,7 @@ import com.emmanuelkehinde.softcomcodingtest.util.ImageUtil
 
 class ImageViewWidget: FormWidget {
 
-    override fun getView(parent: ViewGroup, inflater: LayoutInflater, element: Element): View {
+    override fun getView(inflater: LayoutInflater, parent: ViewGroup, element: Element): View {
         val imageView = inflater.inflate(R.layout.layout_image_view, parent, false) as ImageView
         imageView.tag = element.uniqueId
         ImageUtil.loadImageFromUrl(element.file ?: "", imageView)

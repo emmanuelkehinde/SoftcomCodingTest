@@ -25,6 +25,7 @@ class FormTextInputLayout: TextInputLayout {
         edtTextInput.text?.let {
             if (it.isEmpty() && this.isMandatory) {
                 this.error = FIELD_IS_MANDATORY
+                this.requestFocus()
                 isValid = false
             } else {
                 this.error = null

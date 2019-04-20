@@ -9,7 +9,7 @@ import com.emmanuelkehinde.softcomcodingtest.data.model.Element
 
 class TextViewWidget {
 
-    fun getView(parent: ViewGroup, inflater: LayoutInflater, label: String): View {
+    fun getView(inflater: LayoutInflater, parent: ViewGroup, label: String): View {
         val textView = inflater.inflate(R.layout.layout_text_view, parent, false) as TextView
         textView.text = label
         return textView

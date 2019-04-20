@@ -1,6 +1,7 @@
 package com.emmanuelkehinde.softcomcodingtest.data.repo
 
 import android.content.Context
+import com.emmanuelkehinde.softcomcodingtest.data.FORM_FILEPATH
 import com.emmanuelkehinde.softcomcodingtest.data.model.Form
 import com.google.gson.Gson
 import java.io.IOException
@@ -22,7 +23,7 @@ class FormRepository(var context: Context, var gson: Gson) {
         var json: String? = null
 
         try {
-            val jsonFile = context.assets.open("form/pet_adoption-1.json.json")
+            val jsonFile = context.assets.open(FORM_FILEPATH)
             val size = jsonFile.available()
             val buffer = ByteArray(size)
             jsonFile.read(buffer)

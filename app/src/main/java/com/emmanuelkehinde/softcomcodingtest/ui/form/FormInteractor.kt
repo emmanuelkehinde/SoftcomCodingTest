@@ -31,13 +31,13 @@ class FormInteractor {
         map[ElementType.YES_NO] = RadioGroupWidget()
     }
 
-    fun getFormElements(parent: ViewGroup, inflater: LayoutInflater, section: Section): ArrayList<View> {
+    fun getFormElements(inflater: LayoutInflater, parent: ViewGroup, section: Section): ArrayList<View> {
         val elementViews = ArrayList<View>()
 
-        elementViews.add(TextViewWidget().getView(parent, inflater, section.label))
+        elementViews.add(TextViewWidget().getView(inflater, parent, section.label))
 
         section.elements.forEach { element->
-            map[element.type]?.getView(parent, inflater, element)?.let {
+            map[element.type]?.getView(inflater, parent, element)?.let {
                 elementViews.add(it)
             }
         }

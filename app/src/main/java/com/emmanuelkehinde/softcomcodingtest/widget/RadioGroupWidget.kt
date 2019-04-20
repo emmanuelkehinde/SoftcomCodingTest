@@ -13,7 +13,7 @@ import com.emmanuelkehinde.softcomcodingtest.ui.custom.FormRadioGroup
 
 class RadioGroupWidget: FormWidget {
 
-    override fun getView(parent: ViewGroup, inflater: LayoutInflater, element: Element): View {
+    override fun getView(inflater: LayoutInflater, parent: ViewGroup, element: Element): View {
         val radioGroup = inflater.inflate(R.layout.layout_radio_group, parent, false) as FormRadioGroup
         val tvRadioGroupLabel = radioGroup.findViewById(R.id.tv_radio_group_label) as TextView
         val rbYes = radioGroup.findViewById(R.id.rb_yes) as RadioButton

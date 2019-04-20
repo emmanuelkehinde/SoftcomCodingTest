@@ -6,5 +6,5 @@ import android.view.ViewGroup
 import com.emmanuelkehinde.softcomcodingtest.data.model.Element
 
 interface FormWidget {
-    fun getView(parent: ViewGroup, inflater: LayoutInflater, element: Element): View
+    fun getView(inflater: LayoutInflater, parent: ViewGroup, element: Element): View
 }

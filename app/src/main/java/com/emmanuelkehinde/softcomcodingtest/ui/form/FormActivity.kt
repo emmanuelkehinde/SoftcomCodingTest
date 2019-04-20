@@ -51,8 +51,7 @@ class FormActivity : AppCompatActivity() {
         })
 
         btn_next_page.setOnClickListener {
-            val isValid = validatePage(page_layout)
-            if (!isValid) return@setOnClickListener
+            if (!validatePage(page_layout)) return@setOnClickListener
             formViewModel.goToNextPage()
         }
 
@@ -61,8 +60,7 @@ class FormActivity : AppCompatActivity() {
         }
 
         btn_submit.setOnClickListener {
-            val isValid = validatePage(page_layout)
-            if (!isValid) return@setOnClickListener
+            if (!validatePage(page_layout)) return@setOnClickListener
             startActivity(Intent(this, SummaryActivity::class.java).apply {
                 putExtra(EXTRA_FORM, formViewModel.form?.value)
             }).also { finish() }
@@ -86,7 +84,7 @@ class FormActivity : AppCompatActivity() {
 
         val totalViews = ArrayList<View>()
         page.sections.forEach { section->
-            totalViews.addAll(FormInteractor.getInstance().getFormElements(page_layout, layoutInflater, section))
+            totalViews.addAll(FormInteractor.getInstance().getFormElements(layoutInflater, page_layout, section))
         }
 
         totalViews.forEach { view->
@@ -137,19 +135,21 @@ class FormActivity : AppCompatActivity() {
     }
 
     private fun validatePage(page_layout: LinearLayout): Boolean {
-        var isValid = true
         page_layout.children.forEach { view->
             when (view) {
-                is FormTextInputLayout -> isValid = view.validate()
+                is FormTextInputLayout -> {
+                    if (!view.validate()) {
+                        return false
+                    }
+                }
                 is FormRadioGroup -> {
-                    isValid = view.validate()
-                    if (!isValid) {
+                    if (!view.validate()) {
                         showToast(SELECT_AN_OPTION)
+                        return false
                     }
                 }
             }
         }
-
-        return isValid
+        return true
     }
 }
