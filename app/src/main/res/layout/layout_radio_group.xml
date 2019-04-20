@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.emmanuelkehinde.softcomcodingtest.ui.custom.FormRadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="4dp"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/tv_radio_group_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/LabelTextStyle"
+        tools:text="Radio group title"/>
+
+    <RadioButton
+        android:id="@+id/rb_yes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/yes"/>
+
+    <RadioButton
+        android:id="@+id/rb_no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no"/>
+</com.emmanuelkehinde.softcomcodingtest.ui.custom.FormRadioGroup>

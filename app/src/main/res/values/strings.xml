@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">SoftcomCodingTest</string>
+    <string name="prompt_main_activity">Kindly fill the form appropriately</string>
+    <string name="text_button_main_activity">Proceed to Form</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="btn_text_previous">Previous</string>
+    <string name="btn_text_next">Next</string>
+    <string name="btn_text_submit">Submit</string>
+    <string name="form_completed_successfully">Form Completed Successfully</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
