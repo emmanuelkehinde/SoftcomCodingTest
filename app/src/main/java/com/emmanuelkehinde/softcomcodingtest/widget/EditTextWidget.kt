@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.emmanuelkehinde.softcomcodingtest.R
-import com.emmanuelkehinde.softcomcodingtest.data.PHONE_NUMBER_LENGTH
 import com.emmanuelkehinde.softcomcodingtest.data.model.Element
 import com.emmanuelkehinde.softcomcodingtest.data.model.ElementType
 import com.emmanuelkehinde.softcomcodingtest.ui.custom.FormTextInputLayout
@@ -34,7 +33,8 @@ class EditTextWidget: FormWidget {
             }
             element.type == ElementType.FORMATTED_NUMERIC -> {
                 edtTextInput.inputType = InputType.TYPE_CLASS_PHONE
-                addLengthFilter(edtTextInput)
+                editText.expectedLength = element.formattedNumeric?.length ?: 0
+                addLengthFilter(edtTextInput, editText.expectedLength)
                 edtTextInput.addTextChangedListener(onTextChangeListener(edtTextInput))
             }
             element.type == ElementType.DATE_TIME -> {
@@ -51,9 +51,9 @@ class EditTextWidget: FormWidget {
     }
 
 
-    private fun addLengthFilter(edtTextInput: TextInputEditText) {
+    private fun addLengthFilter(edtTextInput: TextInputEditText, expectedLength: Int) {
         val filterArray = arrayOfNulls<InputFilter>(1)
-        filterArray[0] = InputFilter.LengthFilter(PHONE_NUMBER_LENGTH)
+        filterArray[0] = InputFilter.LengthFilter(expectedLength)
         edtTextInput.filters = filterArray
     }
 

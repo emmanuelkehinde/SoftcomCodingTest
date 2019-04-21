@@ -5,7 +5,6 @@ import android.text.InputType
 import android.util.AttributeSet
 import com.emmanuelkehinde.softcomcodingtest.R
 import com.emmanuelkehinde.softcomcodingtest.data.FIELD_IS_MANDATORY
-import com.emmanuelkehinde.softcomcodingtest.data.PHONE_NUMBER_LENGTH
 import com.emmanuelkehinde.softcomcodingtest.data.PHONE_NUMBER_NOT_ACCURATE
 import com.emmanuelkehinde.softcomcodingtest.data.model.Rule
 import com.google.android.material.textfield.TextInputEditText
@@ -15,6 +14,7 @@ class FormTextInputLayout: TextInputLayout {
 
     var validationRule: List<Rule> = emptyList()
     var isMandatory: Boolean = false
+    var expectedLength: Int = 0
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
@@ -31,7 +31,7 @@ class FormTextInputLayout: TextInputLayout {
                 this.requestFocus()
                 isValid = false
             } else if(edtTextInput.inputType == InputType.TYPE_CLASS_PHONE
-                && it.length != PHONE_NUMBER_LENGTH) {
+                && it.length != this.expectedLength) {
                 this.error = PHONE_NUMBER_NOT_ACCURATE
                 this.requestFocus()
                 isValid = false
