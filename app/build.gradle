@@ -63,4 +63,7 @@ dependencies {
     //Leak Canary
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$rootProject.leakCanaryVersion"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$rootProject.leakCanaryVersion"
+
+    //Shutdown
+    implementation 'com.emmanuelkehinde:shutdown:1.0.1'
 }

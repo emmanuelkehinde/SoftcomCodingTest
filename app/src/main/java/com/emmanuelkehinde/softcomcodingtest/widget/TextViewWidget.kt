@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.emmanuelkehinde.softcomcodingtest.R
-import com.emmanuelkehinde.softcomcodingtest.data.model.Element
 
 class TextViewWidget {
 

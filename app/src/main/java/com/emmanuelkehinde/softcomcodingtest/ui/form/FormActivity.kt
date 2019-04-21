@@ -10,6 +10,7 @@ import androidx.core.view.children
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.emmanuelkehinde.shutdown.Shutdown
 import com.emmanuelkehinde.softcomcodingtest.App
 import com.emmanuelkehinde.softcomcodingtest.R
 import com.emmanuelkehinde.softcomcodingtest.data.EXTRA_FORM
@@ -51,7 +52,7 @@ class FormActivity : AppCompatActivity() {
         })
 
         btn_next_page.setOnClickListener {
-            if (!validatePage(page_layout)) return@setOnClickListener
+            if (!validatePage()) return@setOnClickListener
             formViewModel.goToNextPage()
         }
 
@@ -60,7 +61,7 @@ class FormActivity : AppCompatActivity() {
         }
 
         btn_submit.setOnClickListener {
-            if (!validatePage(page_layout)) return@setOnClickListener
+            if (!validatePage()) return@setOnClickListener
             startActivity(Intent(this, SummaryActivity::class.java).apply {
                 putExtra(EXTRA_FORM, formViewModel.form?.value)
             }).also { finish() }
@@ -134,7 +135,7 @@ class FormActivity : AppCompatActivity() {
         }
     }
 
-    private fun validatePage(page_layout: LinearLayout): Boolean {
+    private fun validatePage(): Boolean {
         page_layout.children.forEach { view->
             when (view) {
                 is FormTextInputLayout -> {
@@ -151,5 +152,9 @@ class FormActivity : AppCompatActivity() {
             }
         }
         return true
+    }
+
+    override fun onBackPressed() {
+        Shutdown.now(this)
     }
 }
