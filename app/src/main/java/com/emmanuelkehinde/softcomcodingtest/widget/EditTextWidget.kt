@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.emmanuelkehinde.softcomcodingtest.R
+import com.emmanuelkehinde.softcomcodingtest.data.PHONE_NUMBER_LENGTH
 import com.emmanuelkehinde.softcomcodingtest.data.model.Element
 import com.emmanuelkehinde.softcomcodingtest.data.model.ElementType
 import com.emmanuelkehinde.softcomcodingtest.ui.custom.FormTextInputLayout
@@ -52,7 +53,7 @@ class EditTextWidget: FormWidget {
 
     private fun addLengthFilter(edtTextInput: TextInputEditText) {
         val filterArray = arrayOfNulls<InputFilter>(1)
-        filterArray[0] = InputFilter.LengthFilter(13)
+        filterArray[0] = InputFilter.LengthFilter(PHONE_NUMBER_LENGTH)
         edtTextInput.filters = filterArray
     }
 

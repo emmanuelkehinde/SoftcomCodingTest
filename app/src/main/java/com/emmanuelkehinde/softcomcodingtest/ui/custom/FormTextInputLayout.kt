@@ -1,9 +1,12 @@
 package com.emmanuelkehinde.softcomcodingtest.ui.custom
 
 import android.content.Context
+import android.text.InputType
 import android.util.AttributeSet
 import com.emmanuelkehinde.softcomcodingtest.R
 import com.emmanuelkehinde.softcomcodingtest.data.FIELD_IS_MANDATORY
+import com.emmanuelkehinde.softcomcodingtest.data.PHONE_NUMBER_LENGTH
+import com.emmanuelkehinde.softcomcodingtest.data.PHONE_NUMBER_NOT_ACCURATE
 import com.emmanuelkehinde.softcomcodingtest.data.model.Rule
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -25,6 +28,11 @@ class FormTextInputLayout: TextInputLayout {
         edtTextInput.text?.let {
             if (it.isEmpty() && this.isMandatory) {
                 this.error = FIELD_IS_MANDATORY
+                this.requestFocus()
+                isValid = false
+            } else if(edtTextInput.inputType == InputType.TYPE_CLASS_PHONE
+                && it.length != PHONE_NUMBER_LENGTH) {
+                this.error = PHONE_NUMBER_NOT_ACCURATE
                 this.requestFocus()
                 isValid = false
             } else {
