@@ -34,12 +34,14 @@ class EditTextWidget: FormWidget {
             element.type == ElementType.FORMATTED_NUMERIC -> {
                 edtTextInput.inputType = InputType.TYPE_CLASS_PHONE
                 addLengthFilter(edtTextInput)
-                edtTextInput.addTextChangedListener(onTextChangedListener(edtTextInput))
+                edtTextInput.addTextChangedListener(onTextChangeListener(edtTextInput))
             }
             element.type == ElementType.DATE_TIME -> {
                 edtTextInput.isFocusableInTouchMode = false
                 edtTextInput.setOnClickListener {
-                    showDatePickerDialog(inflater, edtTextInput, Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH)
+                    val calendar = Calendar.getInstance()
+                    showDatePickerDialog(inflater, edtTextInput, calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
                 }
             }
         }
@@ -47,10 +49,46 @@ class EditTextWidget: FormWidget {
         return editText
     }
 
+
     private fun addLengthFilter(edtTextInput: TextInputEditText) {
         val filterArray = arrayOfNulls<InputFilter>(1)
         filterArray[0] = InputFilter.LengthFilter(13)
         edtTextInput.filters = filterArray
+    }
+
+    private fun onTextChangeListener(edtTextInput: TextInputEditText): TextWatcher {
+        return object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                val input = edtTextInput.text.toString()
+                edtTextInput.removeTextChangedListener(this)
+
+                if ((input.length == 4 || input.length == 8) && !input.endsWith("-")) {
+                    val newText = edtTextInput.text.toString() + "-"
+                    edtTextInput.setText(newText)
+                    edtTextInput.setSelection(edtTextInput.text.toString().length)
+                } else if ((input.length == 5 || input.length == 9) && input.endsWith("-")) {
+                    if (input.length == 5) {
+                        edtTextInput.setText(edtTextInput.text.toString().substring(0, 4))
+                        edtTextInput.setSelection(edtTextInput.text.toString().length)
+                    }
+                    if (input.length == 9) {
+                        edtTextInput.setText(edtTextInput.text.toString().substring(0, 8))
+                        edtTextInput.setSelection(edtTextInput.text.toString().length)
+                    }
+                }
+
+                edtTextInput.addTextChangedListener(this)
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+        }
     }
 
     private fun showDatePickerDialog(inflater: LayoutInflater, edtTextInput: TextInputEditText,
@@ -67,57 +105,6 @@ class EditTextWidget: FormWidget {
                 d = dayOfMonth
             }, y, m, d)
         datePickerDialog.show()
-    }
-
-
-    private fun onTextChangedListener(edtTextInput: TextInputEditText): TextWatcher = object : TextWatcher {
-        override fun afterTextChanged(s: Editable?) {
-            edtTextInput.removeTextChangedListener(this)
-
-            try {
-                var originalString = s.toString()
-
-//                val longVal: Long?
-//                if (originalString.contains("-")) {
-//                    originalString = originalString.replace("-".toRegex(), "")
-//                }
-//                longVal = originalString.toLong()
-
-
-
-//                val sb = StringBuilder()
-//                var tmp = longVal
-//                sb.append("")
-//                sb.append(tmp / 10000000)
-//                tmp %= 10000000
-//                sb.append("-")
-//                sb.append(tmp / 10000)
-//                tmp %= 10000000
-//                sb.append("-")
-//                sb.append(tmp)
-
-//                val formatter = NumberFormat.getInstance(Locale.getDefault()) as DecimalFormat
-//                formatter.applyPattern("#-###-###-###")
-//                val formattedString = formatter.format(longVal)
-
-                edtTextInput.setText(originalString.replace("([0-9]{4})([0-9]{3})([0-9]{4})", "$1-$2-$3"))
-                edtTextInput.setSelection(edtTextInput.text?.length ?: 0)
-            } catch (nfe: NumberFormatException) {
-                nfe.printStackTrace()
-            }
-
-
-            edtTextInput.addTextChangedListener(this)
-        }
-
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-        }
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-        }
-
     }
 
 }
