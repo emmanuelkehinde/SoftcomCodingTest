@@ -30,8 +30,7 @@ class FormTextInputLayout: TextInputLayout {
                 this.error = FIELD_IS_MANDATORY
                 this.requestFocus()
                 isValid = false
-            } else if(edtTextInput.inputType == InputType.TYPE_CLASS_PHONE
-                && it.length != this.expectedLength) {
+            } else if(edtTextInput.inputType == InputType.TYPE_CLASS_PHONE && it.length != this.expectedLength) {
                 this.error = PHONE_NUMBER_NOT_ACCURATE
                 this.requestFocus()
                 isValid = false
