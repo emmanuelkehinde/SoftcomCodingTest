@@ -38,4 +38,5 @@ ext {
     gsonVersion = '2.8.5'
     materialVersion = '1.0.0'
     lifeCycleVersion = '2.0.0'
+    coroutineVersion = '1.2.0'
 }

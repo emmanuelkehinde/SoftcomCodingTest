@@ -2,8 +2,10 @@ package com.emmanuelkehinde.softcomcodingtest.ui.form
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
@@ -18,12 +20,21 @@ import com.emmanuelkehinde.softcomcodingtest.data.SELECT_AN_OPTION
 import com.emmanuelkehinde.softcomcodingtest.data.model.Action
 import com.emmanuelkehinde.softcomcodingtest.data.model.Form
 import com.emmanuelkehinde.softcomcodingtest.data.model.Page
+import com.emmanuelkehinde.softcomcodingtest.data.model.Value
 import com.emmanuelkehinde.softcomcodingtest.extension.showToast
 import com.emmanuelkehinde.softcomcodingtest.ui.custom.FormRadioGroup
 import com.emmanuelkehinde.softcomcodingtest.ui.custom.FormTextInputLayout
 import com.emmanuelkehinde.softcomcodingtest.ui.summary.SummaryActivity
+import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.activity_form.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+import java.util.*
+import kotlin.concurrent.schedule
+
 
 class FormActivity : AppCompatActivity() {
 
@@ -53,15 +64,19 @@ class FormActivity : AppCompatActivity() {
 
         btn_next_page.setOnClickListener {
             if (!validatePage()) return@setOnClickListener
+            saveUserInputs()
             formViewModel.goToNextPage()
         }
 
         btn_previous_page.setOnClickListener {
+            saveUserInputs()
             formViewModel.goToPreviousPage()
         }
 
         btn_submit.setOnClickListener {
             if (!validatePage()) return@setOnClickListener
+            saveUserInputs()
+
             startActivity(Intent(this, SummaryActivity::class.java).apply {
                 putExtra(EXTRA_FORM, formViewModel.form?.value)
             }).also { finish() }
@@ -89,11 +104,34 @@ class FormActivity : AppCompatActivity() {
         }
 
         totalViews.forEach { view->
-            page_layout.addView(view)
+
+            if (view is FormTextInputLayout) {
+                val input: String? = formViewModel.textInputs[view.tag.toString()]
+                val edtTextInput = view.findViewById<TextInputEditText>(R.id.edt_text_input)
+                input?.let {
+                    edtTextInput.setText(it)
+                }
+            }
 
             if (view is FormRadioGroup) {
-                view.setOnCheckedChangeListener(onCheckedChangeListener(view, page_layout))
+                view.setOnCheckedChangeListener(onCheckedChangeListener(view))
+
+                GlobalScope.launch(context = Dispatchers.Main) {
+                    delay(50) //Slightly wait for other page views to be added
+
+                    val input: Value? = formViewModel.radioInputs[view.tag.toString()]
+                    val rbYes = view.findViewById(R.id.rb_yes) as RadioButton
+                    val rbNo = view.findViewById(R.id.rb_no) as RadioButton
+                    input?.let {
+                        if(it == Value.YES) {
+                            rbYes.isChecked = true
+                        } else rbNo.isChecked = true
+                    }
+                }
+
             }
+
+            page_layout.addView(view)
         }
     }
 
@@ -119,16 +157,16 @@ class FormActivity : AppCompatActivity() {
         }
     }
 
-    private fun onCheckedChangeListener(view: FormRadioGroup, pageLayout: LinearLayout): RadioGroup.OnCheckedChangeListener {
+    private fun onCheckedChangeListener(view: FormRadioGroup): RadioGroup.OnCheckedChangeListener {
         return RadioGroup.OnCheckedChangeListener { _, checkedId ->
             view.rules.forEach { rule ->
                 if (rule.action == Action.SHOW && checkedId == R.id.rb_yes) {
                     rule.targets.forEach { target ->
-                        pageLayout.findViewWithTag<View>(target).visibility = View.VISIBLE
+                        page_layout.findViewWithTag<View>(target).visibility = View.VISIBLE
                     }
                 } else {
                     rule.targets.forEach { target ->
-                        pageLayout.findViewWithTag<View>(target).visibility = View.INVISIBLE
+                        page_layout.findViewWithTag<View>(target).visibility = View.INVISIBLE
                     }
                 }
             }
@@ -152,6 +190,22 @@ class FormActivity : AppCompatActivity() {
             }
         }
         return true
+    }
+
+
+    private fun saveUserInputs() {
+        page_layout.children.forEach { view->
+            when (view) {
+                is FormTextInputLayout -> {
+                    val edtTextInput = view.findViewById<TextInputEditText>(R.id.edt_text_input)
+                    formViewModel.textInputs[view.tag.toString()] = edtTextInput.text.toString()
+                }
+                is FormRadioGroup -> {
+                    val rbYes = view.findViewById(R.id.rb_yes) as RadioButton
+                    formViewModel.radioInputs[view.tag.toString()] = if(rbYes.isChecked) Value.YES else Value.NO
+                }
+            }
+        }
     }
 
     override fun onBackPressed() {

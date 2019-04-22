@@ -46,6 +46,10 @@ dependencies {
     //LifeCycle
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifeCycleVersion"
 
+    //Coroutine
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutineVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.coroutineVersion"
+
     //Gson
     implementation "com.google.code.gson:gson:$rootProject.gsonVersion"
 

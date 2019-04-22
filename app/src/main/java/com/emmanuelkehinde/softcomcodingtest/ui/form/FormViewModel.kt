@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.emmanuelkehinde.softcomcodingtest.data.model.Form
+import com.emmanuelkehinde.softcomcodingtest.data.model.Value
 import javax.inject.Inject
 
 class FormViewModel @Inject constructor(): ViewModel() {
@@ -13,6 +14,9 @@ class FormViewModel @Inject constructor(): ViewModel() {
     private val _pageIndex = MutableLiveData<Int>().apply { value = 0 }
     val pageIndex : LiveData<Int>
         get() = _pageIndex
+
+    var textInputs: MutableMap<String, String> = mutableMapOf()
+    var radioInputs: MutableMap<String, Value> = mutableMapOf()
 
     val isFirstPage: Boolean
         get() = _pageIndex.value == 0
