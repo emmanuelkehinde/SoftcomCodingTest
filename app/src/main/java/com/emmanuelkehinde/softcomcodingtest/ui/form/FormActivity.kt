@@ -21,6 +21,7 @@ import com.emmanuelkehinde.softcomcodingtest.data.model.Action
 import com.emmanuelkehinde.softcomcodingtest.data.model.Form
 import com.emmanuelkehinde.softcomcodingtest.data.model.Page
 import com.emmanuelkehinde.softcomcodingtest.data.model.Value
+import com.emmanuelkehinde.softcomcodingtest.extension.showConfirmDialog
 import com.emmanuelkehinde.softcomcodingtest.extension.showToast
 import com.emmanuelkehinde.softcomcodingtest.ui.custom.FormRadioGroup
 import com.emmanuelkehinde.softcomcodingtest.ui.custom.FormTextInputLayout
@@ -77,9 +78,11 @@ class FormActivity : AppCompatActivity() {
             if (!validatePage()) return@setOnClickListener
             saveUserInputs()
 
-            startActivity(Intent(this, SummaryActivity::class.java).apply {
-                putExtra(EXTRA_FORM, formViewModel.form?.value)
-            }).also { finish() }
+            showConfirmDialog("Yes", {
+                startActivity(Intent(this, SummaryActivity::class.java).apply {
+                    putExtra(EXTRA_FORM, formViewModel.form?.value)
+                }).also { finish() }
+            }, "Cancel", msg = "Proceed to submit?")
         }
 
     }
