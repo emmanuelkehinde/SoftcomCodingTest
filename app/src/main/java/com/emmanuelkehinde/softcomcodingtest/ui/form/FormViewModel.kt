@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class FormViewModel @Inject constructor(): ViewModel() {
 
-    var form: MutableLiveData<Form>? = MutableLiveData()
+    var form: Form? = null
 
     private val _pageIndex = MutableLiveData<Int>().apply { value = 0 }
     val pageIndex : LiveData<Int>
@@ -22,7 +22,7 @@ class FormViewModel @Inject constructor(): ViewModel() {
         get() = _pageIndex.value == 0
 
     val isLastPage: Boolean
-        get() = _pageIndex.value == form?.value?.pages?.lastIndex
+        get() = _pageIndex.value == form?.pages?.lastIndex
 
     fun goToNextPage() {
         if (hasNext()) {
@@ -37,7 +37,7 @@ class FormViewModel @Inject constructor(): ViewModel() {
     }
 
     private fun hasNext(): Boolean {
-        return form?.value?.pages?.let {
+        return form?.pages?.let {
             it.lastIndex > _pageIndex.value!!
         } ?: false
 
@@ -48,7 +48,7 @@ class FormViewModel @Inject constructor(): ViewModel() {
     }
 
     fun getProgress(): Int {
-        form?.value?.pages?.size?.let { totalPageSize ->
+        form?.pages?.size?.let { totalPageSize ->
             return ((_pageIndex.value!! + 1) * 100)/totalPageSize
         }
         return 0

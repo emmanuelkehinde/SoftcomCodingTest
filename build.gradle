@@ -39,4 +39,5 @@ ext {
     materialVersion = '1.0.0'
     lifeCycleVersion = '2.0.0'
     coroutineVersion = '1.2.0'
+    shutdownVersion = '1.0.1'
 }

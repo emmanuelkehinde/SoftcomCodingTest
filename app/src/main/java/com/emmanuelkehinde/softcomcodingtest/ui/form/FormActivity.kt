@@ -54,13 +54,13 @@ class FormActivity : AppCompatActivity() {
                     intent?.extras?.let { intent ->
                         val form: Form? = intent.getParcelable(EXTRA_FORM)
                         form?.let { fm ->
-                            this.form?.value = fm
+                            this.form = fm
                         }
                     }
                 }
 
         formViewModel.pageIndex.observe(this, Observer { pageIndex ->
-            updateViews(formViewModel.form?.value?.pages?.get(pageIndex))
+            updateViews(formViewModel.form?.pages?.get(pageIndex))
         })
 
         btn_next_page.setOnClickListener {
@@ -80,7 +80,7 @@ class FormActivity : AppCompatActivity() {
 
             showConfirmDialog("Yes", {
                 startActivity(Intent(this, SummaryActivity::class.java).apply {
-                    putExtra(EXTRA_FORM, formViewModel.form?.value)
+                    putExtra(EXTRA_FORM, formViewModel.form)
                 }).also { finish() }
             }, "Cancel", msg = "Proceed to submit?")
         }

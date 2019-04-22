@@ -19,7 +19,7 @@ class App: Application() {
     override fun onCreate() {
         super.onCreate()
         mInstance = this
-        initLeakCanary()
+//        initLeakCanary()
 
         appComponent = DaggerAppComponent.builder()
             .appModule(AppModule(this))

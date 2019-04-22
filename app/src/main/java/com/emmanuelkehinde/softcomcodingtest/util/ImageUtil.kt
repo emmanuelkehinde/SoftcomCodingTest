@@ -1,7 +1,5 @@
 package com.emmanuelkehinde.softcomcodingtest.util
 
-import android.content.Context
-import android.util.Log
 import android.widget.ImageView
 import com.emmanuelkehinde.softcomcodingtest.R
 import com.squareup.picasso.Picasso
